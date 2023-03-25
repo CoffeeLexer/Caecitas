@@ -73,8 +73,8 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""CameraMove"",
-                    ""type"": ""Value"",
+                    ""name"": ""Look"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""5bbd00a7-5782-47c4-aeff-67d2a1fc7c61"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
@@ -176,7 +176,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""CameraMove"",
+                    ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -225,7 +225,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         m_Player_Right = m_Player.FindAction("Right", throwIfNotFound: true);
         m_Player_Back = m_Player.FindAction("Back", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
-        m_Player_CameraMove = m_Player.FindAction("CameraMove", throwIfNotFound: true);
+        m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
     }
 
@@ -291,7 +291,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Right;
     private readonly InputAction m_Player_Back;
     private readonly InputAction m_Player_Interact;
-    private readonly InputAction m_Player_CameraMove;
+    private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Jump;
     public struct PlayerActions
     {
@@ -302,7 +302,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         public InputAction @Right => m_Wrapper.m_Player_Right;
         public InputAction @Back => m_Wrapper.m_Player_Back;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
-        public InputAction @CameraMove => m_Wrapper.m_Player_CameraMove;
+        public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -328,9 +328,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
-                @CameraMove.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraMove;
-                @CameraMove.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraMove;
-                @CameraMove.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraMove;
+                @Look.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
+                @Look.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
+                @Look.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                 @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
@@ -353,9 +353,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
-                @CameraMove.started += instance.OnCameraMove;
-                @CameraMove.performed += instance.OnCameraMove;
-                @CameraMove.canceled += instance.OnCameraMove;
+                @Look.started += instance.OnLook;
+                @Look.performed += instance.OnLook;
+                @Look.canceled += instance.OnLook;
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
@@ -370,7 +370,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         void OnRight(InputAction.CallbackContext context);
         void OnBack(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
-        void OnCameraMove(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
     }
 }

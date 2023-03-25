@@ -28,7 +28,7 @@ public class Spawner : MonoBehaviour
 
     void SpawnObject()
     {
-        Instantiate(spawnObject, transform);
+        Instantiate(spawnObject, transform.position, Quaternion.identity, transform);
         _currentSpawn++;
         if (_currentSpawn == spawnAmount)
         {

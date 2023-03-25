@@ -51,8 +51,8 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "CameraMove",
-                    "type": "Value",
+                    "name": "Look",
+                    "type": "PassThrough",
                     "id": "5bbd00a7-5782-47c4-aeff-67d2a1fc7c61",
                     "expectedControlType": "Vector2",
                     "processors": "",
@@ -154,7 +154,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "CameraMove",
+                    "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

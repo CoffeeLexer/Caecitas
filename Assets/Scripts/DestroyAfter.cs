@@ -14,4 +14,10 @@ public class DestroyAfter : MonoBehaviour
     {
         Destroy(transform.gameObject);
     }
+    public void SetTime(float newTime)
+    {
+        CancelInvoke();
+        time = newTime;
+        Invoke(nameof(SelfDestruct), time);
+    }
 }

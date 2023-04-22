@@ -4,11 +4,11 @@ public abstract class Interactive : MonoBehaviour
 {
     protected abstract void OnLook();
     protected abstract void OnLookAway();
-    protected abstract void OnInteract();
+    protected abstract void OnInteract(CameraPointer ptr);
 
     public void Look() => OnLook();
     public void LookAway() => OnLookAway();
-    public void Interact() => OnInteract();
+    public void Interact(CameraPointer ptr) => OnInteract(ptr);
 
     [SerializeField] private string _text;
 

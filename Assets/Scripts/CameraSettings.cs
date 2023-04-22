@@ -9,5 +9,6 @@ public class CameraSettings : MonoBehaviour
     {
         var camera = GetComponent<Camera>();
         camera.depthTextureMode = DepthTextureMode.DepthNormals;
+        Camera.main.RenderWithShader(Shader.Find("Unlit/Default"), null);
     }
 }

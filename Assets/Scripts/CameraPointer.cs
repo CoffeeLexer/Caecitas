@@ -1,11 +1,14 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class CameraPointer : MonoBehaviour
 {
     private Interactive _focusedObject;
     private InputActions _inputActions;
-
+    [SerializeField] private Crosshair _crosshair;
+    [SerializeField] private float _range;
     [SerializeField] private Text ui;
     
     private void Start()
@@ -40,16 +43,18 @@ public class CameraPointer : MonoBehaviour
 
         ui.text = string.Empty;
         _focusedObject = interactive;
+        if(_crosshair) _crosshair.SetActive(_focusedObject);
 
         if (_focusedObject)
         {
             _focusedObject.Look();
             ui.text = _focusedObject.Text;
+            
         }
     }
 
     private void Interact()
     {
-        if(_focusedObject) _focusedObject.Interact();
+        if(_focusedObject) _focusedObject.Interact(this);
     }
 }

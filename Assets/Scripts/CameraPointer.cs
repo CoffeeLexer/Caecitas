@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -7,14 +8,16 @@ public class CameraPointer : MonoBehaviour
 {
     private Interactive _focusedObject;
     private InputActions _inputActions;
-    [SerializeField] private Crosshair _crosshair;
-    [SerializeField] private float _range;
-    [SerializeField] private Text ui;
     
-    private void Start()
+    private Vector3 _lookingAt;
+    
+    [SerializeField] private float _reachRange;
+    [SerializeField] private float _putRange;
+
+    private void Awake()
     {
-        _focusedObject = null;
         _inputActions = new InputActions();
+        _focusedObject = null;
         _inputActions.Player.Interact.Enable();
         _inputActions.Player.Interact.performed += ctx => Interact();
     }
@@ -22,39 +25,64 @@ public class CameraPointer : MonoBehaviour
     private void FixedUpdate()
     {
         Interactive newFocus = null;
+        
+        var direction = transform.TransformDirection(Vector3.forward);
+        direction.Normalize();
+        float distance = _putRange;
+        
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out var hit))
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.red);
+            distance = Mathf.Min(hit.distance, distance);
+
             if (hit.transform.TryGetComponent<Interactive>(out var interactive))
             {
-                newFocus = interactive;
+                if (hit.distance < _reachRange)
+                {
+                    newFocus = interactive;
+                }
             }
         }
+        Player.SetPutPosition(transform.position + direction * distance);
+        Player.SetThrowDirection(direction);
         SetFocus(newFocus);
     }
 
     private void SetFocus(Interactive interactive)
     {
-        if (_focusedObject == interactive)
+        if (_focusedObject == interactive) 
             return;
 
         if (_focusedObject)
+        {
             _focusedObject.LookAway();
+        }
 
-        ui.text = string.Empty;
+        Identifier.SetText(String.Empty);
+        Crosshair.SetActive(_focusedObject);
         _focusedObject = interactive;
-        if(_crosshair) _crosshair.SetActive(_focusedObject);
 
         if (_focusedObject)
         {
             _focusedObject.Look();
-            ui.text = _focusedObject.Text;
-            
+            Identifier.SetText(_focusedObject.Text);
         }
     }
 
     private void Interact()
     {
-        if(_focusedObject) _focusedObject.Interact(this);
+        if (_focusedObject)
+        {
+            _focusedObject.Interact();
+        }
+    }
+    
+    public void OnEnable()
+    {
+        _inputActions.Enable();
+    }
+
+    public void OnDisable()
+    {
+        _inputActions.Disable();
     }
 }

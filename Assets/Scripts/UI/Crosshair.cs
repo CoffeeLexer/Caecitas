@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Crosshair : MonoBehaviour
 {
+    private static Crosshair _instance;
+    
     private bool _active;
     private float _changeTime;
     private float _changeSpeed;
@@ -10,12 +12,14 @@ public class Crosshair : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private float _maxSpeed;
     [SerializeField] private float _duration;
-    private void Start()
+    
+    private void Awake()
     {
+        _instance = Global<Crosshair>.Bind(this);
         SetActive(false);
     }
 
-    public void FixedUpdate()
+    private void FixedUpdate()
     {
         float t = (Time.time - _changeTime) / _duration;
         
@@ -30,7 +34,9 @@ public class Crosshair : MonoBehaviour
         transform.Rotate(new Vector3(0, 0, _speed));
     }
 
-    public void SetActive(bool active)
+    public static void SetActive(bool active) => _instance.setActive(active);
+    
+    private void setActive(bool active)
     {
         if (_active != active)
         {
@@ -39,6 +45,5 @@ public class Crosshair : MonoBehaviour
         }
 
         _active = active;
-
     }
 }

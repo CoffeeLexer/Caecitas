@@ -16,27 +16,27 @@ public class Movement : MonoBehaviour
     private Rigidbody _rigidbody;
 
     private Dictionary<Direction, bool> _inputPressed;
-
+    
     private float _currentStrafeSpeed;
     private float _currentMovementSpeed;
     private float _rotation;
-    private Queue<GameObject> _feetQueue;
-    
 
+    private CheckOnGround _groundedCheck;
+
+    private bool _isWalking = false;
+    private float _walkProgress = 0.0f;
+    private float _walkProgressSpeed = 0.05f;
+    
+    [SerializeField] private GameObject _feetObject;
+    
     [SerializeField, Min(0)] private float strafeSpeed;
     [SerializeField, Min(0)] private float movementSpeed;
     [SerializeField, Min(0)] private float jumpForce;
-    [SerializeReference] private GameObject[] feet;
-    [SerializeReference] private GameObject footPrefab;
+    [SerializeField, Min(0)] private float footStepRadius = 1.0f;
 
     public void Awake()
     {
-        _feetQueue = new Queue<GameObject>();
-        foreach (var foot in feet)
-        {
-            _feetQueue.Enqueue(foot);
-        }
-        
+        _groundedCheck = _feetObject.GetComponent<CheckOnGround>();
         _inputActions = new InputActions();
         _rigidbody = GetComponent<Rigidbody>();
         _inputPressed = new Dictionary<Direction, bool>();
@@ -45,6 +45,7 @@ public class Movement : MonoBehaviour
         _inputActions.Player.Look.performed += ctx =>
         {
             var lookStrength = ctx.ReadValue<Vector2>();
+            lookStrength *= Time.timeScale;
             _rotation += lookStrength.x;
             transform.rotation = Quaternion.Euler(0, _rotation % 360, 0);
         };
@@ -61,27 +62,36 @@ public class Movement : MonoBehaviour
 
     private void ConfigInputSpeed()
     {
-        float temporary = _currentMovementSpeed;
+        float previousMovementSpeed = _currentMovementSpeed;
         _currentMovementSpeed = movementSpeed * (Convert.ToInt32(_inputPressed[Direction.Forward]) -
                                                  Convert.ToInt32(_inputPressed[Direction.Back]));
-
-        bool stepRequired = Math.Abs(temporary - _currentMovementSpeed) > 0.001;
-
-        temporary = _currentStrafeSpeed;
+        
+        float previousStrafeSpeed = _currentStrafeSpeed;
         _currentStrafeSpeed = strafeSpeed * (Convert.ToInt32(_inputPressed[Direction.Right]) -
                                              Convert.ToInt32(_inputPressed[Direction.Left]));
-        
-        if(stepRequired || Math.Abs(temporary - _currentMovementSpeed) > 0.001) Step();
+
+        if(Math.Abs(previousMovementSpeed - _currentMovementSpeed) < 0.001 ||
+           Math.Abs(previousStrafeSpeed - _currentStrafeSpeed) < 0.001)
+        {
+            if (_isWalking)
+            {
+                Step();
+            }
+            _isWalking = false;
+        }
+        else
+        {
+            if (!_isWalking)
+            {
+                Step();
+            }
+            _isWalking = true;
+        }
     }
 
     void Step()
     {
-        if (_feetQueue.Count == 0 || footPrefab == null) return;
-        
-        GameObject foot = _feetQueue.Dequeue();
-        _feetQueue.Enqueue(foot);
-        
-        Instantiate(footPrefab, foot.transform.position, foot.transform.rotation);
+        NoiseGenerator.Spawn(_feetObject.transform.position, footStepRadius);
     }
     public void Start()
     {
@@ -123,12 +133,25 @@ public class Movement : MonoBehaviour
 
     private void Jump()
     {
-        _rigidbody.AddForce(Vector3.up * jumpForce);
+        if (_groundedCheck.IsTouchingGround())
+        {
+            _rigidbody.AddForce(Vector3.up * jumpForce);
+            NoiseGenerator.Spawn(_feetObject.transform.position, footStepRadius);
+        }
     }
     
     public void FixedUpdate()
     {
         transform.Translate(Vector3.forward * (_currentMovementSpeed * Time.fixedDeltaTime));
         transform.Translate(Vector3.right * (_currentStrafeSpeed * Time.fixedDeltaTime));
+        if (_isWalking)
+        {
+            _walkProgress += _walkProgressSpeed;
+            if (_walkProgress > 1.0f)
+            {
+                _walkProgress = 0.0f;
+                Step();
+            }
+        }
     }
 }

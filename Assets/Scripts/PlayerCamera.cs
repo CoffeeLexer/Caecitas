@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerCamera: MonoBehaviour
 {
+    private static PlayerCamera _instance;
+    
     private bool _active;
     private float _rotation;
     private InputActions _inputActions;
@@ -14,18 +16,26 @@ public class PlayerCamera: MonoBehaviour
 
     void Start()
     {
+        _instance = Global<PlayerCamera>.Bind(this);
+
         _rotation = transform.rotation.eulerAngles.x;
         _inputActions = new InputActions();
         _inputActions.Player.Look.performed += ctx =>
         {
             var lookStrength = ctx.ReadValue<Vector2>();
-            _rotation = _rotation - lookStrength.y;
+            lookStrength *= Time.timeScale;
+            _rotation -= lookStrength.y;
             _rotation = Mathf.Clamp(_rotation, verticalRange.x, verticalRange.y);
             transform.localRotation = Quaternion.Euler(_rotation % 360, 0, 0);
         };
         SetActive(true);
     }
 
+    public static void setActive(bool newState)
+    {
+        _instance.SetActive(newState);
+    }
+    
     private void SetActive(bool newState)
     {
         _active = newState;

@@ -2,97 +2,69 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Item : Interactive
 {
-    [SerializeField] private Material _onLookMaterial;
-    [SerializeField] private Material _onHeldMaterial;
-    [SerializeField] private Sprite _slotSprite;
+    [SerializeField] private Sprite slotSprite;
     public Vector3 heldRotation = Vector3.zero;
-
-    private List<Tuple<MeshRenderer, Material>> _childRenderers;
 
     private bool _isHeld;
     private Rigidbody _rigidbody;
+
+    public Sprite SlotSprite => slotSprite;
+    public bool IsHeld => _isHeld;
+
     private void Start()
     {
         _isHeld = false;
         _rigidbody = GetComponent<Rigidbody>();
-
-        _childRenderers = new List<Tuple<MeshRenderer, Material>>();
-        extractChildRenderer(gameObject);
     }
 
-    private void extractChildRenderer(GameObject obj)
-    {
-        foreach (GameObject child in obj.transform)
-        {
-            extractChildRenderer(child);
-        }
-        
-        var renderer = obj.GetComponent<MeshRenderer>();
-        if(!renderer) return;
-        
-        var defaultMaterial = renderer.material;
-        _childRenderers.Add(new Tuple<MeshRenderer, Material>(renderer, defaultMaterial));
-    }
-
-    private void SetMaterial(Material material)
-    {
-        foreach (var child in _childRenderers)
-        {
-            child.Item1.material = material;
-        }
-    }
-
-    private void ResetMaterial()
-    {
-        foreach (var child in _childRenderers)
-        {
-            child.Item1.material = child.Item2;
-        }
-    }
-    
-    protected override void OnLook()
+    protected override void OnInteract()
     {
         if(_isHeld) return;
-        
-        if (_onLookMaterial)
-            SetMaterial(_onLookMaterial);
-    }
-
-    protected override void OnLookAway()
-    {
-        if(_isHeld) return;
-        ResetMaterial();
-    }
-
-    protected override void OnInteract(CameraPointer ptr)
-    {
-        if(_isHeld) return;
-        Global.Toolbar.TakeItem(this);
-    }
-
-    public Sprite GetSlotSprite()
-    {
-        return _slotSprite;
+        Inventory.Take(this);
     }
 
     public void SetHeldState(bool isHeld)
     {
         if (_isHeld == isHeld) return;
-
-        if(_isHeld)
-            SetMaterial(_onHeldMaterial);
-        else
-            ResetMaterial();
-        
         _isHeld = isHeld;
+        
+        if(_isHeld)
+        {
+            SetMaterial(Global.Objects.holdMaterial);
+        }
+        else
+        {
+            var c = GetComponents<MoveToOrigin>();
+            foreach (var component in c)
+            {
+                Destroy(component);
+            }
+            ResetMaterial();
+        }
 
         if (_rigidbody)
         {
             _rigidbody.isKinematic = _isHeld;
             _rigidbody.detectCollisions = !_isHeld;
+        }
+    }
+
+    protected override void OnLook()
+    {
+        if (!_isHeld)
+        {
+            base.OnLook();
+        }
+    }
+    protected override void OnLookAway()
+    {
+        if (!_isHeld)
+        {
+            base.OnLookAway();
         }
     }
 }

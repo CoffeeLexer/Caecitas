@@ -5,16 +5,26 @@ using UnityEngine;
 
 public class NoiseGenerator : MonoBehaviour
 {
+    private static NoiseGenerator _instance;
+    
     [SerializeField] private GameObject _noise;
     
     private void Awake()
     {
-        Global.NoiseGenerator = this;
+        _instance = Global<NoiseGenerator>.Bind(this);
     }
 
-    public void Spawn(Vector3 position, float radius)
+    public static void Spawn(Vector3 position, float radius) => _instance.spawn(position, radius);
+    private void spawn(Vector3 position, float radius)
     {
-        GameObject newSound = Instantiate(_noise, position, Quaternion.identity);
-        newSound.GetComponent<SoundBehavior>().Travel(radius);
+        if (!_noise)
+        {
+            Debug.LogError("Noise prefab not initialized");
+        }
+        else
+        {
+            GameObject newSound = Instantiate(_noise, position, Quaternion.identity);
+            newSound.GetComponent<SoundBehavior>().Travel(radius);
+        }
     }
 }

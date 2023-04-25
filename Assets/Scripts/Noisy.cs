@@ -5,14 +5,9 @@ using UnityEngine;
 
 public class Noisy : MonoBehaviour
 {
-    [SerializeField] private AudioSource _audio;
-    [SerializeField] private AudioClip _clip;
-
-    [SerializeField] private float _activationSpeed = 10;
-    [SerializeField] private float _maxSound;
+    [SerializeField] private float _activationSpeed = 1;
     [SerializeField] private float _recordedSpeed;
-
-    [SerializeField] private GameObject obj;
+    [SerializeField] private float _soundRadius = 1;
     private Rigidbody _rb;
 
     void Start()
@@ -31,7 +26,7 @@ public class Noisy : MonoBehaviour
 
         if (_recordedSpeed >= _activationSpeed)
         {
-            Instantiate(obj, transform.position, Quaternion.identity);
+            NoiseGenerator.Spawn(transform.position, _soundRadius);
         }
     }
 }

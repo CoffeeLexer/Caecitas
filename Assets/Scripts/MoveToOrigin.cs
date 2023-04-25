@@ -2,17 +2,15 @@ using UnityEngine;
 
 public class MoveToOrigin : MonoBehaviour
 {
-    private float _speed = 0.1f;
+    private const float Speed = 0.1f;
 
     void FixedUpdate()
     {
-        var newPosition = Vector3.Lerp(transform.localPosition, Vector3.zero, _speed);
+        var newPosition = Vector3.Lerp(transform.localPosition, Vector3.zero, Speed);
         
-        //if(newPosition == transform.position) 
-            //Destroy(this);
+        if(Mathf.Abs((newPosition - transform.localPosition).magnitude) < 0.001) 
+            Destroy(this);
         
         transform.localPosition = newPosition;
     }
-    
-    public void SetSpeed(float speed) => _speed = speed;
 }

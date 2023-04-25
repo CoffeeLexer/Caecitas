@@ -5,28 +5,26 @@ using UnityEngine.UI;
 
 public class Notification : MonoBehaviour
 {
-    public enum Urgency : uint
-    {
-        Warning,
-        Notification,
-        Critical,
-    }
-    
-    
+    private static Notification _instance;
+
     private Text _text;
     private Color _color;
+    
     private void Awake()
     {
-        Global.Notification = this;
+        _instance = Global<Notification>.Bind(this);
+
         _text = GetComponent<Text>();
         _color = _text.color;
         _color.a = 0f;
         _text.color = _color;
     }
 
-    public void Set(string text)
+    public static void Notify(string text) => _instance.notify(text);
+    private void notify(string text)
     {
         _text.text = text;
+        StopAllCoroutines();
         StartCoroutine(Fade());
     }
 

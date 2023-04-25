@@ -14,15 +14,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 22c8f0926862f974ca535e626cb920cf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -1.8709409
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 22c8f0926862f974ca535e626cb920cf, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 22c8f0926862f974ca535e626cb920cf, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.37290096
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 22c8f0926862f974ca535e626cb920cf, type: 3}
       propertyPath: m_LocalRotation.w
@@ -55,11 +55,11 @@ PrefabInstance:
     - target: {fileID: -8078329625100049307, guid: 22c8f0926862f974ca535e626cb920cf, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+      objectReference: {fileID: 2100000, guid: a5f45de6d2478d64eada94aa14f02e38, type: 2}
     - target: {fileID: -7708408159414870898, guid: 22c8f0926862f974ca535e626cb920cf, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+      objectReference: {fileID: 2100000, guid: a5f45de6d2478d64eada94aa14f02e38, type: 2}
     - target: {fileID: -1344082418753831500, guid: 22c8f0926862f974ca535e626cb920cf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -90
@@ -71,7 +71,7 @@ PrefabInstance:
     - target: {fileID: -823492872740657926, guid: 22c8f0926862f974ca535e626cb920cf, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+      objectReference: {fileID: 2100000, guid: a5f45de6d2478d64eada94aa14f02e38, type: 2}
     - target: {fileID: -478996883668468582, guid: 22c8f0926862f974ca535e626cb920cf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -5.5011e-15
@@ -172,9 +172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _text: Metronome
-  _onLookMaterial: {fileID: 2100000, guid: 76e89e8233466be4da8ee7e956a1e7c1, type: 2}
-  _onHeldMaterial: {fileID: 2100000, guid: 80125c19c45a4d84eb7ac6313f21cd57, type: 2}
-  _slotSprite: {fileID: 0}
+  slotSprite: {fileID: 21300000, guid: 0f35f8f25cbebc34c8432659cde5fd87, type: 3}
   heldRotation: {x: -90, y: 0, z: 180}
 --- !u!65 &3290757565266594889
 BoxCollider:
@@ -220,7 +218,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0

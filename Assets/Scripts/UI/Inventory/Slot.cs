@@ -3,8 +3,8 @@ using UnityEngine.UI;
 
 public class Slot : MonoBehaviour
 {
-    [SerializeField] private float _scaleMinimum = 100;
-    [SerializeField] private float _scaleMaximum = 100;
+    [SerializeField] private float _scaleMinimum = 150;
+    [SerializeField] private float _scaleMaximum = 200;
 
     [SerializeField] private float _scaleCurrent;
     [SerializeField] private bool _isActive;
@@ -13,9 +13,10 @@ public class Slot : MonoBehaviour
     
     private float _scaleTarget;
     private RectTransform _rect;
-    private GameObject _item;
-    private Sprite _defaultSprite;
+    private Item _item;
     private Image _image;
+
+    public Item GetItem => _item;
     
     float ScaleCurrent
     {
@@ -29,9 +30,10 @@ public class Slot : MonoBehaviour
 
     private void Start()
     {
+        Inventory.AddSlot(this);
+        
         _rect = GetComponent<RectTransform>();
-        _image = GetComponent<Image>();
-        _defaultSprite = _image.sprite;
+        _image = transform.GetChild(0).GetComponent<Image>();
 
         SetIsCurrent(_isActive);
         ScaleCurrent = _scaleTarget;
@@ -49,20 +51,28 @@ public class Slot : MonoBehaviour
     {
         _isActive = newActivity;
         _scaleTarget = _isActive ? _scaleMaximum : _scaleMinimum;
+        Hand.Hold(_item);
     }
 
-    public void SetItem(Item obj)
+    public void SetItem(Item item)
     {
-        if (obj)
+        if (item)
         {
-            _image.sprite = obj.GetSlotSprite();
+            _image.sprite = item.SlotSprite;
+            Color c = _image.color;
+            c.a = 100.0f / 255.0f;
+            _image.color = c;
         }
         else
         {
-            _image.sprite = _defaultSprite;
+            _image.sprite = null;
+            Color c = _image.color;
+            c.a = 0;
+            _image.color = c;
         }
+        _item = item;
     }
-    
+
     public bool IsEmpty()
     {
         return !_item;

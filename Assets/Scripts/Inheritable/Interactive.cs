@@ -35,7 +35,8 @@ public class Interactive : MonoBehaviour
         OnInteract();
     } 
 
-    [SerializeField] protected string _text;
+    [SerializeField] 
+    protected string _text;
     
     private List<Tuple<Renderer, Material>> _childRenderers;
     

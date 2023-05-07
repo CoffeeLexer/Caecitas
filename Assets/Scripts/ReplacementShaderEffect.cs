@@ -6,7 +6,8 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class ReplacementShaderEffect : MonoBehaviour
 {
-    [SerializeField] private Shader _replacement;
+    [SerializeField] 
+    private Shader _replacement;
 
     private void OnEnable()
     {

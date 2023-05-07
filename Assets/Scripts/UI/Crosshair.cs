@@ -9,9 +9,12 @@ public class Crosshair : MonoBehaviour
     private float _changeTime;
     private float _changeSpeed;
     
-    [SerializeField] private float _speed;
-    [SerializeField] private float _maxSpeed;
-    [SerializeField] private float _duration;
+    [SerializeField]
+    private float _speed;
+    [SerializeField]
+    private float _maxSpeed;
+    [SerializeField]
+    private float _duration;
     
     private void Awake()
     {

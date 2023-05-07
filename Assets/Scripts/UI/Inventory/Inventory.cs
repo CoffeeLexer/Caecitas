@@ -62,16 +62,19 @@ public class Inventory : MonoBehaviour
             Notification.Notify($"Inventory FULL");
             return false;
         }
-        _slots[index].SetItem(item);
         
-        Hand.Hold(item);
-        Notification.Notify($"Picked up {item.name}");
+        _slots[index].SetItem(item);
+        if (index == _current)
+        {
+            _slots[_current].SetIsCurrent(true);
+        }
+        
+        Notification.Notify($"Picked up {item.Text}");
 
         return true;
     }
 
     public static void AddSlot(Slot slot) => _instance.addSlot(slot);
-
     private void addSlot(Slot slot)
     {
         if (_slots.Count == 0)
@@ -79,6 +82,11 @@ public class Inventory : MonoBehaviour
             slot.SetIsCurrent(true);
         }
         _slots.Add(slot);
+
+        _slots.Sort((a, b) =>
+        {
+            return a.Index.CompareTo(b.Index);
+        });
     }
     
     private int findEmptySlot()
@@ -88,8 +96,18 @@ public class Inventory : MonoBehaviour
         int Next(int x) => (x + 1) % _slots.Count;
 
         for (int i = Next(_current); i != _current; i = Next(i))
-            if (_slots[i].IsEmpty()) return i;
+        {
+            if (_slots[i].IsEmpty())
+                return i;
+        }
 
         return -1;
+    }
+
+    public static void EmptyTheHand() => _instance.emptyTheHand();
+
+    private void emptyTheHand()
+    {
+        _slots[_current].SetItem(null);
     }
 }

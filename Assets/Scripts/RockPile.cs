@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class RockPile : Interactive
 {
-    [SerializeField] private GameObject _rock;
+    [SerializeField] 
+    private GameObject _rock;
     private void Awake()
     {
         base.Awake();
@@ -20,7 +21,7 @@ public class RockPile : Interactive
         if (_rock)
         {
             var obj = Instantiate(_rock);
-            var item = _rock.GetComponent<Item>();
+            var item = obj.GetComponent<Item>();
             Inventory.Take(item);
         }
     }

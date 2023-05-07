@@ -14,5 +14,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Void.unity
     guid: 763a8d8e21d0fe441a73d27c9905a8bb
+  - enabled: 1
+    path: Assets/Scenes/Maze.unity
+    guid: f21087957112bc24caeee3f89b5cd3aa
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: 1bfd2a5e85b415849a4e17a88cc6c68c
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

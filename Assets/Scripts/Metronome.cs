@@ -20,7 +20,8 @@ public class Metronome : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_period == Global.Objects.metronomePeriod) return;
+        // If switched within inventory, will reset
+        //if (_period == Global.Objects.metronomePeriod) return;
         _period = Global.Objects.metronomePeriod;
         _animator.SetFloat("Period", _period);
     }

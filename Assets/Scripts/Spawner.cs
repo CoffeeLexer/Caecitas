@@ -10,12 +10,17 @@ public class Spawner : MonoBehaviour
         Complete,
     }
     
-    [SerializeField][Min(0)] private int spawnAmount = 1;
-    [SerializeField][Min(0)] private float spawnSpeed = 1.0f;
-    [SerializeField][Min(0)] private float spawnRadius = 1.0f;
+    [SerializeField][Min(0)]
+    private int spawnAmount = 1;
+    [SerializeField][Min(0)]
+    private float spawnSpeed = 1.0f;
+    [SerializeField][Min(0)]
+    private float spawnRadius = 1.0f;
 
-    [ReadOnlyInspector, SerializeField] private int _currentSpawn;
-    [ReadOnlyInspector, SerializeField] private State _currentState = State.Uninitialized;
+    [ReadOnlyInspector, SerializeField]
+    private int _currentSpawn;
+    [ReadOnlyInspector, SerializeField] 
+    private State _currentState = State.Uninitialized;
     void Start()
     {
         _currentSpawn = 0;

@@ -62,5 +62,15 @@ public class Player : MonoBehaviour
     private Vector3 getThrowDirection()
     {
         return _throwDirection;
-    } 
+    }
+
+    public static void StopMovement()
+    {
+        _instance.stopMovement();
+    }
+
+    private void stopMovement()
+    {
+        
+    }
 }

@@ -7,7 +7,8 @@ public class NoiseGenerator : MonoBehaviour
 {
     private static NoiseGenerator _instance;
     
-    [SerializeField] private GameObject _noise;
+    [SerializeField] 
+    private GameObject _noise;
     
     private void Awake()
     {

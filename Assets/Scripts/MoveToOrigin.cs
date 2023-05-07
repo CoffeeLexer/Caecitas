@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[DisallowMultipleComponent] 
 public class MoveToOrigin : MonoBehaviour
 {
     private const float Speed = 0.1f;

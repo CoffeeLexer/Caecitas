@@ -88,7 +88,6 @@ GameObject:
   - component: {fileID: 169738807711108822}
   - component: {fileID: 2134277490907412607}
   - component: {fileID: 6663495762993071586}
-  - component: {fileID: 4701788379542027355}
   m_Layer: 0
   m_Name: Overlay
   m_TagString: Untagged
@@ -110,7 +109,7 @@ Transform:
   m_Children:
   - {fileID: 2046037517318992074}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!20 &2134277490907412607
 Camera:
@@ -206,18 +205,6 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
---- !u!114 &4701788379542027355
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7709622000613918173}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27b0d4d1b9ea71b4693ce70b7f6e7e48, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &6275964535224835110
 PrefabInstance:
   m_ObjectHideFlags: 0

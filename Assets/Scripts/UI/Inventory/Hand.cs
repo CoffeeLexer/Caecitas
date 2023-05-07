@@ -1,5 +1,4 @@
 using Unity.VisualScripting;
-using UnityEditor.UIElements;
 using UnityEngine;
 
 public class Hand : MonoBehaviour
@@ -57,6 +56,10 @@ public class Hand : MonoBehaviour
         {
             _heldItem.SetHeldState(true);
         }
+        else
+        {
+            Inventory.EmptyTheHand();
+        }
 
         Transform itemTransform = _heldItem ? _heldItem.transform : _emptyHand;
 
@@ -79,6 +82,15 @@ public class Hand : MonoBehaviour
     {
         if (!_heldItem)
             return;
+
+        var moveToOrigin = _heldItem.GetComponent<MoveToOrigin>();
+        if (moveToOrigin)
+        {
+            Destroy(moveToOrigin);
+        }
+        
+        var rb = _heldItem.GetComponent<Rigidbody>();
+        rb.isKinematic = false;
         
         _heldItem.transform.SetParent(null);
         _heldItem.transform.transform.position = Player.GetPutPosition();
@@ -93,11 +105,18 @@ public class Hand : MonoBehaviour
         if (!_heldItem)
             return;
         
+        var moveToOrigin = _heldItem.GetComponent<MoveToOrigin>();
+        if (moveToOrigin)
+        {
+            Destroy(moveToOrigin);
+        }
+
         _heldItem.transform.SetParent(null);
         _heldItem.transform.transform.position = Player.GetPutPosition();
         _heldItem.SetHeldState(false);
 
         var rb = _heldItem.GetComponent<Rigidbody>();
+        rb.isKinematic = false;
         var throwForce = Player.GetThrowDirection() * Global.Objects.throwForce;
         rb.AddForce(throwForce);
         
@@ -105,7 +124,6 @@ public class Hand : MonoBehaviour
     }
     
     public static Vector3 GetOffset() => _instance.getOffset();
-
     private Vector3 getOffset()
     {
         return transform.position - transform.parent.position;

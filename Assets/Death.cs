@@ -6,12 +6,15 @@ using UnityEngine.SceneManagement;
 
 public class Death : MonoBehaviour
 {
+    [SerializeField] 
+    private string deathMessage = "You have Died";
+    
     private void OnTriggerEnter(Collider other)
     {
         if (Player.Equals(other.gameObject))
         {
-            Overlay.SetColor(Color.red);
-            Overlay.SetText("You have Died");
+            Overlay.SetColor(new Color(0.5f, 0, 0, 0));
+            Overlay.SetText(deathMessage);
             Overlay.FadeOut(() =>
             {
                 SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);

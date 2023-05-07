@@ -24,15 +24,22 @@ public class Movement : MonoBehaviour
     private CheckOnGround _groundedCheck;
 
     private bool _isWalking = false;
+    [SerializeField] 
     private float _walkProgress = 0.0f;
+    [SerializeField]
     private float _walkProgressSpeed = 0.05f;
     
-    [SerializeField] private GameObject _feetObject;
+    [SerializeField]
+    private GameObject _feetObject;
     
-    [SerializeField, Min(0)] private float strafeSpeed;
-    [SerializeField, Min(0)] private float movementSpeed;
-    [SerializeField, Min(0)] private float jumpForce;
-    [SerializeField, Min(0)] private float footStepRadius = 1.0f;
+    [SerializeField, Min(0)]
+    private float strafeSpeed;
+    [SerializeField, Min(0)]
+    private float movementSpeed;
+    [SerializeField, Min(0)]
+    private float jumpForce;
+    [SerializeField, Min(0)]
+    private float footStepRadius = 1.0f;
 
     public void Awake()
     {
@@ -46,7 +53,7 @@ public class Movement : MonoBehaviour
         {
             var lookStrength = ctx.ReadValue<Vector2>();
             lookStrength *= Time.timeScale;
-            _rotation += lookStrength.x;
+            _rotation += lookStrength.x * 0.25f;
             transform.rotation = Quaternion.Euler(0, _rotation % 360, 0);
         };
         ResetInput();
@@ -70,16 +77,8 @@ public class Movement : MonoBehaviour
         _currentStrafeSpeed = strafeSpeed * (Convert.ToInt32(_inputPressed[Direction.Right]) -
                                              Convert.ToInt32(_inputPressed[Direction.Left]));
 
-        if(Math.Abs(previousMovementSpeed - _currentMovementSpeed) < 0.001 ||
-           Math.Abs(previousStrafeSpeed - _currentStrafeSpeed) < 0.001)
-        {
-            if (_isWalking)
-            {
-                Step();
-            }
-            _isWalking = false;
-        }
-        else
+        if(_currentMovementSpeed > 0.001 ||
+           _currentStrafeSpeed > 0.001)
         {
             if (!_isWalking)
             {
@@ -87,11 +86,19 @@ public class Movement : MonoBehaviour
             }
             _isWalking = true;
         }
+        else
+        {
+            if (_isWalking)
+            {
+                Step();
+            }
+            _isWalking = false;
+        }
     }
 
     void Step()
     {
-        NoiseGenerator.Spawn(_feetObject.transform.position, footStepRadius);
+        NoiseGenerator.Spawn(_feetObject.transform.position + Vector3.up * 0.05f, footStepRadius);
     }
     public void Start()
     {
@@ -136,7 +143,7 @@ public class Movement : MonoBehaviour
         if (_groundedCheck.IsTouchingGround())
         {
             _rigidbody.AddForce(Vector3.up * jumpForce);
-            NoiseGenerator.Spawn(_feetObject.transform.position, footStepRadius);
+            NoiseGenerator.Spawn(_feetObject.transform.position + Vector3.up * 0.05f, footStepRadius);
         }
     }
     

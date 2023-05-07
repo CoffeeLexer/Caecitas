@@ -6,7 +6,9 @@ using UnityEngine.Serialization;
 
 public class Item : Interactive
 {
-    [SerializeField] private Sprite slotSprite;
+    [SerializeField] 
+    private Sprite slotSprite;
+    
     public Vector3 heldRotation = Vector3.zero;
 
     private bool _isHeld;
@@ -29,22 +31,22 @@ public class Item : Interactive
 
     public void SetHeldState(bool isHeld)
     {
-        if (_isHeld == isHeld) return;
-        _isHeld = isHeld;
         
-        if(_isHeld)
+        if(isHeld)
         {
             SetMaterial(Global.Objects.holdMaterial);
         }
         else
         {
-            var c = GetComponents<MoveToOrigin>();
-            foreach (var component in c)
+            var c = GetComponent<MoveToOrigin>();
+            if (c)
             {
-                Destroy(component);
+                Destroy(c);
             }
             ResetMaterial();
         }
+        if (_isHeld == isHeld) return;
+        _isHeld = isHeld;
 
         if (_rigidbody)
         {

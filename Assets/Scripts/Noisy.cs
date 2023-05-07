@@ -5,9 +5,12 @@ using UnityEngine;
 
 public class Noisy : MonoBehaviour
 {
-    [SerializeField] private float _activationSpeed = 1;
-    [SerializeField] private float _recordedSpeed;
-    [SerializeField] private float _soundRadius = 1;
+    [SerializeField] 
+    private float _activationSpeed = 1;
+    [SerializeField]
+    private float _recordedSpeed;
+    [SerializeField] 
+    private float _soundRadius = 1;
     private Rigidbody _rb;
 
     void Start()

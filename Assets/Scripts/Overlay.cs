@@ -30,6 +30,7 @@ public class Overlay : MonoBehaviour
     
     private void fadeOut(Action action)
     {
+        gameObject.SetActive(true);
         fadeOutAction = action;
         StartCoroutine(FadeOutRoutine());
     }
@@ -41,6 +42,7 @@ public class Overlay : MonoBehaviour
    
     private void fadeIn(Action action)
     {
+        gameObject.SetActive(true);
         fadeInAction = action;
         StartCoroutine(FadeInRoutine());
     }
@@ -64,6 +66,7 @@ public class Overlay : MonoBehaviour
         textImage.color = cText;
         
         //fadeInAction.Invoke();
+        gameObject.SetActive(false);
     }
     IEnumerator FadeOutRoutine()
     {

@@ -22,8 +22,10 @@ public class Expand : MonoBehaviour
     private Material _material;
     private Color _color;
 
-    [SerializeField, Min(0)] private float soundSpeed = 300;
-    [SerializeField, Min(0)] private float maxDistance;
+    [SerializeField, Min(0)]
+    private float soundSpeed = 300;
+    [SerializeField, Min(0)]
+    private float maxDistance;
 
     void Start()
     {

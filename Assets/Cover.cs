@@ -9,9 +9,12 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Image))]
 public class Cover : MonoBehaviour
 {
-    [SerializeField] private UnityEvent _startEvent;
-    [SerializeField] private UnityEvent _fadeInEvent;
-    [SerializeField] private UnityEvent _fadeOutEvent;
+    [SerializeField]
+    private UnityEvent _startEvent;
+    [SerializeField] 
+    private UnityEvent _fadeInEvent;
+    [SerializeField]
+    private UnityEvent _fadeOutEvent;
     
     private Image _image;
     private void Awake()

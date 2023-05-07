@@ -3,20 +3,44 @@ using UnityEngine.UI;
 
 public class Slot : MonoBehaviour
 {
-    [SerializeField] private float _scaleMinimum = 150;
-    [SerializeField] private float _scaleMaximum = 200;
+    [SerializeField]
+    private float _scaleMinimum = 150;
+    [SerializeField]
+    private float _scaleMaximum = 200;
 
-    [SerializeField] private float _scaleCurrent;
-    [SerializeField] private bool _isActive;
+    [SerializeField]
+    private float _scaleCurrent;
+    [SerializeField]
+    private bool _isActive;
     
-    [SerializeField, Range(0.0f, 1.0f)] private float _speed = 0.5f;
+    [SerializeField, Range(0.0f, 1.0f)]
+    private float _speed = 0.5f;
     
     private float _scaleTarget;
     private RectTransform _rect;
     private Item _item;
     private Image _image;
 
+    [SerializeField]
+    private int index;
+
+    public int Index => index;
+
     public Item GetItem => _item;
+
+    private void IndexSelf()
+    {
+        var p = transform.parent;
+        index = -1;
+        foreach (Transform child in p)
+        {
+            index++;
+            if(child == transform)
+                return;
+        }
+
+        index = -1;
+    }
     
     float ScaleCurrent
     {
@@ -30,6 +54,7 @@ public class Slot : MonoBehaviour
 
     private void Start()
     {
+        IndexSelf();
         Inventory.AddSlot(this);
         
         _rect = GetComponent<RectTransform>();
@@ -77,4 +102,5 @@ public class Slot : MonoBehaviour
     {
         return !_item;
     }
+    
 }

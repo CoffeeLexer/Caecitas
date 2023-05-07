@@ -6,8 +6,11 @@ public class Interactable : Interactive
 {
     protected Requirement _requirement = null;
 
-    [SerializeField] protected string requirementFailedText;
-    [SerializeField] protected string requirementNotMet;
+    [SerializeField] 
+    protected string requirementFailedText;
+    [SerializeField] 
+    protected string requirementNotMet;
+    
     protected override void OnInteract()
     {
         if (_requirement == null)

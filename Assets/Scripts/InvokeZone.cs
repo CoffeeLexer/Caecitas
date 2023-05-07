@@ -6,7 +6,8 @@ using UnityEngine.Events;
 [RequireComponent(typeof(BoxCollider))]
 public class InvokeZone : MonoBehaviour
 {
-    [SerializeField] private UnityEvent _event;
+    [SerializeField] 
+    private UnityEvent _event;
     private void OnTriggerEnter(Collider other)
     {
         if (Player.Equals(other.gameObject))

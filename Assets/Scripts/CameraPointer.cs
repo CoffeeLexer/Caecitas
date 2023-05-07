@@ -11,8 +11,10 @@ public class CameraPointer : MonoBehaviour
     
     private Vector3 _lookingAt;
     
-    [SerializeField] private float _reachRange;
-    [SerializeField] private float _putRange;
+    [SerializeField] 
+    private float _reachRange;
+    [SerializeField]
+    private float _putRange;
 
     private void Awake()
     {
